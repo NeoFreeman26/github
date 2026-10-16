@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 匯入儲存庫方法指南</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        h2 {
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: .3em;
+            color: #0366d6;
+        }
+        ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            font-weight: 600;
+        }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            font-size: 85%;
+            line-height: 1.45;
+            overflow: auto;
+            padding: 16px;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: rgba(27,31,35,.05);
+            border-radius: 3px;
+            font-size: 85%;
+            margin: 0;
+            padding: .2em .4em;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+        hr {
+            height: .25em;
+            padding: 0;
+            margin: 24px 0;
+            background-color: #e1e4e6;
+            border: 0;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <p>在 GitHub 匯入（Import）外部儲存庫主要有兩種常見方法：使用 <strong>GitHub 內建的匯入工具（GitHub Importer）</strong> 或透過 <strong>命令列（Command Line）</strong>。</p>
+
+    <hr>
+
+    <h2>方法一：使用 GitHub 網頁匯入工具（GitHub Importer）</h2>
+    <p>適合從 GitLab、Bitbucket 或其他 Git 服務輕鬆搬遷整個專案與 Commit 歷史紀錄。</p>
+    <ol>
+        <li>登入 GitHub，點擊右上角的 <strong><code>+</code></strong> 按鈕，然後選擇 <strong>「Import repository」（匯入儲存庫）</strong>。</li>
+        <li>在 <strong>「Your old repository's clone URL」</strong> 欄位中，輸入你要匯入的舊儲存庫的 Clone URL（例如 HTTPS 或 Git 連結）。</li>
+        <li>在 <strong>「Owner」（所有者）</strong> 與 <strong>「Name」（名稱）</strong> 欄位設定新倉庫的擁有者與名稱。</li>
+        <li>選擇隱私設定（Public 或 Private）。</li>
+        <li>如果該外部倉庫是私有（Private）的，請輸入該服務的帳號與存取認證（例如 Bitbucket 的 App Password 或 GitLab 密碼）。</li>
+        <li>點擊 <strong>「Begin import」（開始匯入）</strong>，等待系統處理完成後會收到 Email 通知。</li>
+    </ol>
+    <p>詳細說明可參考 <a href="https://github.com" target="_blank">GitHub 官方匯入工具文件</a>。</p>
+
+    <hr>
+
+    <h2>方法二：透過命令列（Command Line）匯入</h2>
+    <p>適合熟悉 Git 指令、或需要更靈活控制推送過程的情況。</p>
+    <ol>
+        <li>
+            <strong>建立一個空的 GitHub 倉庫</strong>：
+            <br>在 GitHub 建立一個新的空白 Repository（<strong>不要</strong>勾選 Initialize this repository with a README、license 或 gitignore）。
+        </li>
+        <li>
+            <strong>在本地端鏡像複製（Bare clone）舊的儲存庫</strong>：
+            <br>打開終端機（Terminal / Command Line），執行：
+<pre><code>git clone --bare https://external-host.com</code></pre>
+        </li>
+        <li>
+            <strong>推送到新的 GitHub 儲存庫</strong>：
+            <br>進入該目錄並使用 <code>--mirror</code> 將所有分支與標籤推送到 GitHub：
+<pre><code>cd old-repo.git
+git push --mirror https://github.com</code></pre>
+        </li>
+        <li>
+            <strong>清理本地暫存的 bare 專案</strong>（可選）：
+<pre><code>cd ..
+rm -rf old-repo.git</code></pre>
+        </li>
+    </ol>
+    <p>詳細步驟可參考 <a href="https://github.com" target="_blank">GitHub 官方命令列匯入文件</a>。</p>
+
+</body>
+</html>
+
